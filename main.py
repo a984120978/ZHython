@@ -1,17 +1,24 @@
 import os
 import sys
 
+from str2 import str2_str
 
-def params(text: str):
-    text = text.replace('（', '(').replace('）', ')').replace('“', '"').replace('”', '"')
+
+def params(text: str) -> str:
+    text = str2_str(text)
     if '打印' in text:
-        text = text.replace('打印', 'print')
-        exec(text)
+        text = text.replace('打印', 'print').strip()
+
+    return text
+
+
+def main(file):
+    r = open(file, encoding='utf-8')
+    f = r.readline()
+    while f:
+        exec(params(f))
+        f = r.readline()
 
 
 if __name__ == '__main__':
-    r = open(sys.argv[1], encoding='utf-8')
-    f = r.readline()
-    while f:
-        params(text=f)
-        f = r.readline()
+    main(sys.argv[1])
